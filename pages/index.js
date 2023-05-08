@@ -33,7 +33,7 @@ export default function Home() {
           <h1 className='text-xl font-mono'>BlocksDev</h1>
           <ul className='flex items-center h1'>
             <li><BsFillMoonStarsFill className='cursor-pointer text-xl'/></li>
-            <li><a className='bg-gradient-to-r from-cyan-500 to-teal-500 px-4 py-2 rounded-md ml-8' href='#'>Resume</a></li>
+            <li><a className='bg-gradient-to-r from-cyan-500 to-teal-500 px-4 py-2 rounded-md ml-8' href='/resume.pdf' download>Resume</a></li>
           </ul>
         </nav>
         <div className='text-center p-10'>
@@ -80,10 +80,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section>
-          <h3 className='text-3xl pt-8 lg:text-5xl'>My Github Repositories</h3>
-          {repositories.map(repo => (
-            <div key={repo.id} className='border border-gray-300 rounded-lg p-4 my-4'>
+      <section className='p-6'>
+        <h3 className='text-3xl pt-8 p-4 lg:text-5xl p-4 text-center'>My Github Repositories</h3>
+        <div className='grid grid-cols-2 lg:grid-cols-5 gap-5'>
+          {repositories.map((repo) => (
+            <div key={repo.id} className='border border-gray-300 rounded-lg p-4'>
               <h4 className='text-xl font-medium text-teal-600'>{repo.name}</h4>
               <p className='text-gray-600'>{repo.description}</p>
               <p className='text-gray-500'>Language: {repo.language}</p>
@@ -92,7 +93,8 @@ export default function Home() {
               <a href={repo.html_url} className='text-teal-600'>View on GitHub</a>
             </div>
           ))}
-        </section>
+        </div>
+      </section>
     </main>
     </div>
   )
