@@ -3,23 +3,28 @@ import { Inter } from 'next/font/google'
 import {BsFillMoonStarsFill} from 'react-icons/bs'
 import {SiFiverr} from 'react-icons/si'
 import {AiFillLinkedin, AiFillYoutube, AiFillTwitterCircle, AiFillGithub, AiFillRedditCircle} from 'react-icons/ai'
-import {TbBrandFiverr} from 'react-icons/tb'
 import deved from '../public/dev-ed-wave.png'
 import design from '../public/design.png'
 import code from '../public/code.png'
 import consulting from '../public/consulting.png'
-import web1 from '../public/web1.png'
-import web2 from '../public/web2.png'
-import web3 from '../public/web3.png'
-import web4 from '../public/web4.png'
-import web5 from '../public/web5.png'
-import web6 from '../public/web6.png'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import getRepositories from '../utils/githubApi';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
+  const [repositories, setRepositores] = useState([]);
+
+  useEffect(() => {
+    const username = 'coderwithsense';
+    const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+    
+    getRepositories(username, token)
+      .then(repositories => setRepositores(repositories))
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <div>
     <main className='px-10'>
@@ -76,8 +81,18 @@ export default function Home() {
         </div>
       </section>
       <section>
-
-      </section>
+          <h3 className='text-3xl pt-8 lg:text-5xl'>My Github Repositories</h3>
+          {repositories.map(repo => (
+            <div key={repo.id} className='border border-gray-300 rounded-lg p-4 my-4'>
+              <h4 className='text-xl font-medium text-teal-600'>{repo.name}</h4>
+              <p className='text-gray-600'>{repo.description}</p>
+              <p className='text-gray-500'>Language: {repo.language}</p>
+              <p className='text-gray-500'>Stars: {repo.stargazers_count}</p>
+              {/* Add more information or components to display as needed */}
+              <a href={repo.html_url} className='text-teal-600'>View on GitHub</a>
+            </div>
+          ))}
+        </section>
     </main>
     </div>
   )
